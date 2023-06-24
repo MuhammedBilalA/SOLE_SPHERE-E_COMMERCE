@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(SoleSphere());
 }
 
@@ -23,7 +24,9 @@ class SoleSphere extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: black),
+      theme: ThemeData(
+        primarySwatch: black,
+      ),
       debugShowCheckedModeBanner: false,
       home: NavBar(),
     );

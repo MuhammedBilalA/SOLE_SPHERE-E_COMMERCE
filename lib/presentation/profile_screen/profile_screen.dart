@@ -8,12 +8,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kblack,
-      body: Center(
-        child: const Text(
-          'Profile',
-          style: TextStyle(fontWeight: FontWeight.bold, color: kwhite),
-        ),
-      ),
+      body: Column(children: [],)
     );
   }
 }
