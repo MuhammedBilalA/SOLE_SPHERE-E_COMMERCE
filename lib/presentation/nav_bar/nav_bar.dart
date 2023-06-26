@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
@@ -21,31 +20,30 @@ class _NavBarState extends State<NavBar> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
     HomeScreen(),
-    WishListScreen(),
-    MyOrderScreen(),
+    const WishListScreen(),
+    const MyOrderScreen(),
     MyCartScreen(),
-    ProfileScreen()
+    const ProfileScreen(),
   ];
-  final List<Widget> trailing = const [
-    Icon(Icons.settings_suggest_sharp),
-    Icon(Icons.search),
-    Icon(Icons.search),
-    Icon(Icons.search),
-    Icon(Icons.edit),
+  List<Widget> trailing = [
+    const Icon(Icons.settings_suggest_sharp),
+    const Icon(Icons.search),
+    const Icon(Icons.search),
+    const Icon(Icons.search),
+    const Icon(Icons.edit),
   ];
-  final List<String> _title = const [
+  final List<String> _title = [
     'Home',
     'Wishlist',
     'My Orders',
     "My Cart",
     "Profile"
   ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: kblack,
+        backgroundColor: kblack,
         drawer: Drawer(
           backgroundColor: kwhite,
           child: Column(
@@ -63,7 +61,7 @@ class _NavBarState extends State<NavBar> {
                       height: MediaQuery.of(context).size.height * 0.11,
                       width: MediaQuery.of(context).size.width * 0.23,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 2)),
+                          border: Border.all(color: kwhite, width: 2)),
                     )),
                 Positioned(
                   left: MediaQuery.of(context).size.width * 0.1,

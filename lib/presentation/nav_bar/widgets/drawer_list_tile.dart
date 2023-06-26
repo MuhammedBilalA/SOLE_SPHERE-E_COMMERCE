@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class DrawerTile extends StatelessWidget {
@@ -14,7 +13,7 @@ class DrawerTile extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 60,
-      // color: Colors.red,
+      // color: kred,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -22,7 +21,7 @@ class DrawerTile extends StatelessWidget {
             flex: 3,
           ),
           SizedBox(
-            // color: Colors.red,
+            // color: kred,
             width: 30,
             child: Icon(
               icon,
@@ -33,7 +32,7 @@ class DrawerTile extends StatelessWidget {
             flex: 2,
           ),
           SizedBox(
-            // color: Colors.red,
+            // color: kred,
             width: 150,
             child: Text(
               title,
