@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 
 import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
+import 'package:sole_sphere/presentation/splash_screen/splash_screen.dart';
 
 void main(List<String> args) {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ class SoleSphere extends StatelessWidget {
         primarySwatch: mBlack,
       ),
       debugShowCheckedModeBanner: false,
-      home: NavBar(),
+      home: SplashScreen(),
     );
   }
 }
