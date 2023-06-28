@@ -10,6 +10,7 @@ class SignInTextFormField extends StatefulWidget {
       required this.isSuffix,
       required this.passwordVisible,
       required this.numkeybord,
+      required this.controller,
       required this.title});
   double top;
   String title;
@@ -18,6 +19,7 @@ class SignInTextFormField extends StatefulWidget {
   bool passwordVisible;
   bool numkeybord;
   // GlobalKey formkey;
+  TextEditingController controller;
 
   @override
   State<SignInTextFormField> createState() => _SignInTextFormFieldState();
@@ -30,7 +32,10 @@ class _SignInTextFormFieldState extends State<SignInTextFormField> {
     return Padding(
       padding: EdgeInsets.only(left: 20, right: 20, top: widget.top),
       child: TextFormField(
-        keyboardType: (widget.numkeybord)?TextInputType.number:TextInputType.emailAddress,
+        controller: widget.controller,
+        keyboardType: (widget.numkeybord)
+            ? TextInputType.number
+            : TextInputType.emailAddress,
         obscureText: !widget.passwordVisible,
         // expands: true,
         // maxLines: 1,

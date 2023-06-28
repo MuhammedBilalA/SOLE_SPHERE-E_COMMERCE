@@ -1,12 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
+import 'package:sole_sphere/infrastructure/authentication_functions/authentication_function.dart';
 import 'package:sole_sphere/presentation/login_screens/widgets/sign_in_textform_field.dart';
+import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
+import 'package:sole_sphere/presentation/widgets/custom_snackbar.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
   final _formkey = GlobalKey<FormState>();
+  TextEditingController userNameColtrollor = TextEditingController();
+  TextEditingController emailColtrollor = TextEditingController();
+  TextEditingController phoneNumberColtrollor = TextEditingController();
+  TextEditingController passwordColtrollor = TextEditingController();
+  TextEditingController confirmPasswordColtrollor = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +64,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SignInTextFormField(
                   // formkey: nameFormKey,
+                  controller: userNameColtrollor,
                   numkeybord: false,
                   passwordVisible: true,
                   isSuffix: false,
@@ -63,6 +74,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SignInTextFormField(
                   // formkey: emailFormKey,
+                  controller: emailColtrollor,
                   numkeybord: false,
                   passwordVisible: true,
                   isSuffix: false,
@@ -72,6 +84,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SignInTextFormField(
                   // formkey: phoneNumberFormKey,
+                  controller: phoneNumberColtrollor,
                   numkeybord: true,
                   passwordVisible: true,
                   isSuffix: false,
@@ -80,6 +93,7 @@ class SignUpScreen extends StatelessWidget {
                   top: 20,
                 ),
                 SignInTextFormField(
+                    controller: passwordColtrollor,
                     passwordVisible: false,
                     numkeybord: false,
                     // formkey: passwordFormKey,
@@ -89,6 +103,7 @@ class SignUpScreen extends StatelessWidget {
                     title: 'enter password'),
 
                 SignInTextFormField(
+                    controller: confirmPasswordColtrollor,
                     passwordVisible: false,
                     numkeybord: false,
                     // formkey: confirmPasswordFormKey,
@@ -100,8 +115,39 @@ class SignUpScreen extends StatelessWidget {
                   height: 40,
                 ),
                 InkWell(
-                  onTap: () {
-                    if (_formkey.currentState!.validate()) {}
+                  onTap: () async {
+                    // snackbarFailed(
+                    //     text: 'Password is not matching', context: context);
+                    if (_formkey.currentState!.validate()) {
+                      if (passwordColtrollor.text ==
+                          confirmPasswordColtrollor.text) {
+                        Authentication()
+                            .registerWithEmailAndPassword(
+                                emailColtrollor.text,
+                                passwordColtrollor.text,
+                                userNameColtrollor.text,
+                                phoneNumberColtrollor.text)
+                            .then((success) {
+                          if (success) {
+                            // Get.offAll( BottomNavigationClass());
+                            snackbarSuccess(
+                                text: 'Successfully Sign Up', context: context);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => NavBar(),
+                            ));
+                          } else {
+                            // Get.snackbar('Error', 'Invalid email or password');
+                            snackbarFailed(
+                                text: 'Invalid Email or passwors',
+                                context: context);
+                          }
+                        });
+                      } else {
+                        // log('error');
+                        snackbarFailed(
+                            text: 'Password is not matching', context: context);
+                      }
+                    }
                   },
                   child: Container(
                     width: 200,

@@ -1,13 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
+import 'package:sole_sphere/infrastructure/authentication_functions/authentication_function.dart';
 import 'package:sole_sphere/presentation/login_screens/sign_up_screen.dart';
 import 'package:sole_sphere/presentation/login_screens/widgets/sign_in_textform_field.dart';
+import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
+import 'package:sole_sphere/presentation/widgets/custom_snackbar.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
   final _formkey = GlobalKey<FormState>();
+  TextEditingController emailColtrollor = TextEditingController();
+  TextEditingController passwordColtrollor = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +61,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 SignInTextFormField(
                   // formkey: emailFormKey,
+                  controller: emailColtrollor,
                   numkeybord: false,
                   passwordVisible: true,
                   isSuffix: false,
@@ -65,6 +72,7 @@ class SignInScreen extends StatelessWidget {
                 SignInTextFormField(
                     passwordVisible: false,
                     // formkey: passwordFormKey,
+                    controller: passwordColtrollor,
                     numkeybord: false,
                     isSuffix: true,
                     top: 20,
@@ -77,7 +85,27 @@ class SignInScreen extends StatelessWidget {
                   onTap: () {
                     // if (emailFormKey.currentState!.validate() &&
 
-                    if (_formkey.currentState!.validate()) {}
+                    if (_formkey.currentState!.validate()) {
+                      Authentication auth = Authentication();
+                      auth
+                          .signInWithEmailAndPassword(
+                              emailColtrollor.text, passwordColtrollor.text)
+                          .then((success) {
+                        if (success) {
+                          // Get.offAll( BottomNavigationClass());
+                          snackbarSuccess(
+                              text: 'Successfully SignIn', context: context);
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => NavBar(),
+                          ));
+                        } else {
+                          // Get.snackbar('Error', 'Invalid email or password');
+                          snackbarFailed(
+                              text: 'Invalid Email or passwors',
+                              context: context);
+                        }
+                      });
+                    }
                   },
                   child: Container(
                     width: 200,
@@ -146,48 +174,66 @@ class SignInScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 40, right: 40),
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: kwhite),
-                        color: kwhite,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Row(
-                      children: [
-                        Spacer(
-                          flex: 2,
-                        ),
-                        Container(
-                          width: 45,
-                          height: 45,
-                          // color: kblack,
-                          child: Center(
-                            child: Image.asset(
-                              'assets/images/googlelogo.png',
-                              fit: BoxFit.cover,
-                              scale: 20,
+                  child: InkWell(
+                    onTap: () async {
+                      UserCredential _cred =
+                          await Authentication().signInWithGoogle();
+
+                      if (_cred != null) {
+                        snackbarSuccess(
+                            text: 'Successfully SignIn with Google',
+                            context: context);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NavBar(),
+                        ));
+                      } else {
+                        snackbarFailed(
+                            text: 'Create Account', context: context);
+                      }
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: kwhite),
+                          color: kwhite,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        children: [
+                          Spacer(
+                            flex: 2,
+                          ),
+                          Container(
+                            width: 45,
+                            height: 45,
+                            // color: kblack,
+                            child: Center(
+                              child: Image.asset(
+                                'assets/images/googlelogo.png',
+                                fit: BoxFit.cover,
+                                scale: 20,
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              // color: kblack,
                             ),
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            // color: kblack,
+                          Spacer(
+                            flex: 3,
                           ),
-                        ),
-                        Spacer(
-                          flex: 3,
-                        ),
-                        Text(
-                          'Sign in with Google',
-                          style: TextStyle(
-                              color: kblack,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18),
-                        ),
-                        Spacer(
-                          flex: 8,
-                        )
-                      ],
+                          Text(
+                            'Sign in with Google',
+                            style: TextStyle(
+                                color: kblack,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18),
+                          ),
+                          Spacer(
+                            flex: 8,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
@@ -14,6 +15,10 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  List<String> imageList = [
+    'assets/images/shoe2.png',
+    'assets/images/shoe4.png',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,192 +44,202 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ))
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.74,
-            // color: kred,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 250,
-                    color: kwhite,
-                    child: Center(
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        // color: kblack,
-                        child: Image.asset('assets/images/shoe2.png'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.74,
+              // color: kred,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 250,
+                      color: kwhite,
+                      child: Center(
+                        child: CarouselSlider.builder(
+                          options: CarouselOptions(
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 800),
+                          ),
+                          itemCount: imageList.length,
+                          itemBuilder: (context, index, realIndex) => Container(
+                            height: 200,
+                            width: 200,
+                            // color: kblack,
+                            child: Image.asset(imageList[index]),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          // color: kred,
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 20, bottom: 10),
-                            child: Text(
-                              "Nike Air Jordhan",
-                              style: TextStyle(
-                                  color: kwhite,
-                                  overflow: TextOverflow.clip,
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              right: 10, top: 20, bottom: 10),
-                          child: Icon(
-                            Icons.shopping_cart_checkout_rounded,
-                            color: kwhite,
-                            size: 28,
-                          ),
-                        ),
-                      ]),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Container(
-                      width: double.infinity,
-                      height: 40,
-                      // color: kred,
-                      child: Row(
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Shimmer.fromColors(
-                            baseColor:
-                                Color.fromARGB(255, 4, 199, 30).withOpacity(.9),
-                            highlightColor: Color.fromARGB(255, 255, 255, 255),
-                            child: Text(
-                              '85% off',
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  // decorationThickness: 1.8,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                          Container(
+                            // color: kred,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, top: 20, bottom: 10),
+                              child: Text(
+                                "Nike Air Jordhan",
+                                style: TextStyle(
+                                    color: kwhite,
+                                    overflow: TextOverflow.clip,
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w800),
+                              ),
                             ),
                           ),
-                          Spacer(
-                            flex: 1,
-                          ),
-                          Text(
-                            '₹ 4,599.00',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 193, 189, 189),
-                                decoration: TextDecoration.lineThrough,
-                                decorationColor: kred,
-                                decorationThickness: 1.8,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          Spacer(
-                            flex: 1,
-                          ),
-                          Shimmer.fromColors(
-                            baseColor: kwhite,
-                            highlightColor: Color.fromARGB(255, 252, 2, 2),
-                            child: Text(
-                              '₹ 3,544.00',
-                              style: TextStyle(
-                                  // color: Colors.green,
-                                  // decorationThickness: 1.8,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 10, top: 20, bottom: 10),
+                            child: Icon(
+                              Icons.shopping_cart_checkout_rounded,
+                              color: kwhite,
+                              size: 28,
                             ),
                           ),
-                          Spacer(
-                            flex: 15,
-                          )
-                        ],
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        // color: kred,
+                        child: Row(
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Color.fromARGB(255, 4, 199, 30)
+                                  .withOpacity(.9),
+                              highlightColor:
+                                  Color.fromARGB(255, 255, 255, 255),
+                              child: Text(
+                                '85% off',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    // decorationThickness: 1.8,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            ),
+                            Spacer(
+                              flex: 1,
+                            ),
+                            Text(
+                              '₹ 4,599.00',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 193, 189, 189),
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationColor: kred,
+                                  decorationThickness: 1.8,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            Spacer(
+                              flex: 1,
+                            ),
+                            Shimmer.fromColors(
+                              baseColor: kwhite,
+                              highlightColor: Color.fromARGB(255, 252, 2, 2),
+                              child: Text(
+                                '₹ 3,544.00',
+                                style: TextStyle(
+                                    // color: Colors.green,
+                                    // decorationThickness: 1.8,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            ),
+                            Spacer(
+                              flex: 15,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: double.infinity,
-                      // height: double.infinity,
-                      // color: kred,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: double.infinity,
+                        // height: double.infinity,
+                        // color: kred,
+                        child: Text(
+                          "dable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the lik",
+                          style: TextStyle(
+                              overflow: TextOverflow.fade,
+                              color: Color.fromARGB(255, 193, 192, 192),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    // Wrap(
+                    //   spacing: 5.0,
+                    //   children: List<Widget>.generate(
+                    //     3,
+                    //     (int index) {
+                    //       return Transform(
+                    //         transform: new Matrix4.identity()..scale(.99),
+                    //         child: ChoiceChip(
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(100)),
+                    //           label: Text('4$index'),
+                    //           selected: _value == index,
+                    //           selectedColor: kred,
+                    //           onSelected: (bool selected) {
+                    //             setState(() {
+                    //               _value = selected ? index : null;
+                    //             });
+                    //           },
+                    //         ),
+                    //       );
+                    //     },
+                    //   ).toList(),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0, top: 15),
                       child: Text(
-                        "dable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the lik",
+                        'Select the size',
                         style: TextStyle(
-                            overflow: TextOverflow.fade,
-                            color: Color.fromARGB(255, 193, 192, 192),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
+                            color: kwhite,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
                       ),
                     ),
-                  ),
-                  // Wrap(
-                  //   spacing: 5.0,
-                  //   children: List<Widget>.generate(
-                  //     3,
-                  //     (int index) {
-                  //       return Transform(
-                  //         transform: new Matrix4.identity()..scale(.99),
-                  //         child: ChoiceChip(
-                  //           shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(100)),
-                  //           label: Text('4$index'),
-                  //           selected: _value == index,
-                  //           selectedColor: kred,
-                  //           onSelected: (bool selected) {
-                  //             setState(() {
-                  //               _value = selected ? index : null;
-                  //             });
-                  //           },
-                  //         ),
-                  //       );
-                  //     },
-                  //   ).toList(),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0, top: 15),
-                    child: Text(
-                      'Select the size',
-                      style: TextStyle(
-                          color: kwhite,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                    Container(
+                      height: 85,
+                      width: double.infinity,
+                      // color: kred,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {},
+                              child: SizeTile(
+                                index: index,
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              width: 10,
+                            );
+                          },
+                          itemCount: 5),
                     ),
-                  ),
-                  Container(
-                    height: 85,
-                    width: double.infinity,
-                    // color: kred,
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {},
-                            child: SizeTile(
-                              index: index,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            width: 10,
-                          );
-                        },
-                        itemCount: 5),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              // height: 150,
+            Container(
+              height: MediaQuery.of(context).size.height * 0.15,
               decoration: BoxDecoration(
                   color: kwhite,
                   borderRadius: BorderRadius.only(
@@ -290,8 +305,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

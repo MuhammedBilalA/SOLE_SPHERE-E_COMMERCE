@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "735352170496",
+    "project_id": "solesphere-6c9a8",
+    "storage_bucket": "solesphere-6c9a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735352170496:android:bbf956cf0d21f1f22a10e5",
+        "android_client_info": {
+          "package_name": "com.bilal.sole_sphere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735352170496-lu3rgf0ic5pn17dginji7u15sogv9sq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByWcib6Q6IxAu-ziNg4A8v77a91WXxtqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735352170496-lu3rgf0ic5pn17dginji7u15sogv9sq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
