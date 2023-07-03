@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sole_sphere/application/sign_in/sign_in_notifier.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 import 'package:sole_sphere/infrastructure/authentication_functions/authentication_function.dart';
 import 'package:sole_sphere/presentation/login_screens/sign_up_screen.dart';
@@ -34,8 +38,7 @@ class SignInScreen extends StatelessWidget {
                     height: 120,
                     width: 180,
                     child: Shimmer.fromColors(
-                      baseColor:
-                          Color.fromARGB(255, 158, 156, 156).withOpacity(.9),
+                      baseColor: Color.fromARGB(255, 158, 156, 156).withOpacity(.9),
                       highlightColor: Color.fromARGB(255, 255, 255, 255),
                       child: Image.asset(
                         'assets/images/solespherebagremoved.png',
@@ -52,10 +55,7 @@ class SignInScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'LOGIN TO YOUR ACCOUNT',
-                      style: TextStyle(
-                          color: kwhite,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                      style: TextStyle(color: kwhite, fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),
                 ),
@@ -69,15 +69,25 @@ class SignInScreen extends StatelessWidget {
                   icon: Icons.email_outlined,
                   top: 20,
                 ),
-                SignInTextFormField(
-                    passwordVisible: false,
-                    // formkey: passwordFormKey,
-                    controller: passwordColtrollor,
-                    numkeybord: false,
-                    isSuffix: true,
-                    top: 20,
-                    icon: Icons.lock,
-                    title: 'Password'),
+                ChangeNotifierProvider<SigninNotifier>(
+                    create: (context) => SigninNotifier(),
+                    child: Consumer(
+                      builder: (context, value, child) {
+                        SigninNotifier controller = Provider.of<SigninNotifier>(context);
+                        return SignInTextFormField(
+                            passwordVisible: controller.passwordVisible,
+                            // formkey: passwordFormKey,
+                            controller: passwordColtrollor,
+                            numkeybord: false,
+                            isSuffix: true,
+                            onPressed: () {
+                              controller.toggle();
+                            },
+                            top: 20,
+                            icon: Icons.lock,
+                            title: 'Password');
+                      },
+                    )),
                 SizedBox(
                   height: 40,
                 ),
@@ -86,23 +96,21 @@ class SignInScreen extends StatelessWidget {
                     // if (emailFormKey.currentState!.validate() &&
 
                     if (_formkey.currentState!.validate()) {
-                      Authentication auth = Authentication();
+                      Authentication auth = Authentication(context: context);
                       auth
-                          .signInWithEmailAndPassword(
-                              emailColtrollor.text, passwordColtrollor.text)
+                          .signInWithEmailAndPassword(emailColtrollor.text, passwordColtrollor.text)
                           .then((success) {
                         if (success) {
                           // Get.offAll( BottomNavigationClass());
-                          snackbarSuccess(
-                              text: 'Successfully SignIn', context: context);
-                          Navigator.of(context).push(MaterialPageRoute(
+                          snackbarSuccess(text: 'Successfully SignIn', context: context);
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => NavBar(),
                           ));
                         } else {
                           // Get.snackbar('Error', 'Invalid email or password');
-                          snackbarFailed(
-                              text: 'Invalid Email or passwors',
-                              context: context);
+                          // snackbarFailed(
+                          //     text: 'Invalid Email or passwors',
+                          //     context: context);
                         }
                       });
                     }
@@ -117,10 +125,7 @@ class SignInScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Sign In',
-                        style: TextStyle(
-                            color: kblack,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                        style: TextStyle(color: kblack, fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
                   ),
@@ -135,10 +140,7 @@ class SignInScreen extends StatelessWidget {
                       flex: 8,
                     ),
                     Text("Don't have an account?",
-                        style: TextStyle(
-                            color: kwhite,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400)),
+                        style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.w400)),
                     Spacer(
                       flex: 1,
                     ),
@@ -150,10 +152,7 @@ class SignInScreen extends StatelessWidget {
                       },
                       child: Text(
                         "Sign Up",
-                        style: TextStyle(
-                            color: kwhite,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Spacer(
@@ -166,8 +165,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 Text(
                   "Forgotten Password?",
-                  style: TextStyle(
-                      color: kwhite, fontSize: 15, fontWeight: FontWeight.w400),
+                  style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
                   height: 40,
@@ -177,18 +175,15 @@ class SignInScreen extends StatelessWidget {
                   child: InkWell(
                     onTap: () async {
                       UserCredential _cred =
-                          await Authentication().signInWithGoogle();
+                          await Authentication(context: context).signInWithGoogle();
 
                       if (_cred != null) {
-                        snackbarSuccess(
-                            text: 'Successfully SignIn with Google',
-                            context: context);
-                        Navigator.of(context).push(MaterialPageRoute(
+                        snackbarSuccess(text: 'Successfully SignIn with Google', context: context);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => NavBar(),
                         ));
                       } else {
-                        snackbarFailed(
-                            text: 'Create Account', context: context);
+                        snackbarFailed(text: 'Create Account', context: context);
                       }
                     },
                     child: Container(
@@ -224,10 +219,8 @@ class SignInScreen extends StatelessWidget {
                           ),
                           Text(
                             'Sign in with Google',
-                            style: TextStyle(
-                                color: kblack,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18),
+                            style:
+                                TextStyle(color: kblack, fontWeight: FontWeight.w500, fontSize: 18),
                           ),
                           Spacer(
                             flex: 8,

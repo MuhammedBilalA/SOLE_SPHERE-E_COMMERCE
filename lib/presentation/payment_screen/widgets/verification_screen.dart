@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 import 'package:sole_sphere/presentation/login_screens/widgets/sign_in_textform_field.dart';
 import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
@@ -21,13 +22,13 @@ class VerificationScreen extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios_new_rounded,
               color: kwhite,
             )),
         // elevation: 2,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Payment Method',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -37,7 +38,7 @@ class VerificationScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.75,
                 width: double.infinity,
                 child: Column(
@@ -46,9 +47,7 @@ class VerificationScreen extends StatelessWidget {
                     Text(
                       '456',
                       style: GoogleFonts.lobster(
-                          fontSize: 40,
-                          color: Colors.green,
-                          fontWeight: FontWeight.w400),
+                          fontSize: 40, color: Colors.green, fontWeight: FontWeight.w400),
                     ),
                     Form(
                       key: _formkey,
@@ -67,19 +66,17 @@ class VerificationScreen extends StatelessWidget {
               Container(
                 height: MediaQuery.of(context).size.height * 0.13,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: kwhite,
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
+                        topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                 child: InkWell(
                   onTap: () {
                     // Navigator.of(context).push(CupertinoPageRoute(
                     //   builder: (context) => VerificationScreen(),
                     // ));
 
-                    if (_formkey.currentState!.validate() &&
-                        confirmationController.text == '456') {
+                    if (_formkey.currentState!.validate() && confirmationController.text == '456') {
                       successPopUp(context);
                     }
                   },
@@ -87,16 +84,13 @@ class VerificationScreen extends StatelessWidget {
                     child: Container(
                       width: 280,
                       height: 60,
-                      decoration: BoxDecoration(
-                          color: kblack,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Center(
+                      decoration:
+                          BoxDecoration(color: kblack, borderRadius: BorderRadius.circular(40)),
+                      child: const Center(
                         child: Text(
                           'CONFIRM ORDER',
-                          style: TextStyle(
-                              color: kwhite,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900),
+                          style:
+                              TextStyle(color: kwhite, fontSize: 20, fontWeight: FontWeight.w900),
                         ),
                       ),
                     ),
@@ -115,55 +109,55 @@ class VerificationScreen extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          shape:
+              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32.0))),
           // contentPadding: EdgeInsets.only(top: 10.0),
           title: Center(
-            child: Container(
-              width: 600,
-              child: Center(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: const Center(
                 child: Text(
                   ' Order Successfull',
-                  style: TextStyle(
-                      color: kblack, fontWeight: FontWeight.bold, fontSize: 23),
+                  style: TextStyle(color: kblack, fontWeight: FontWeight.bold, fontSize: 23),
                 ),
               ),
             ),
           ),
-          content: Icon(
-            Icons.verified_sharp,
-            color: Colors.green,
-            size: 200,
-          ),
+          content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: LottieBuilder.asset(
+                'assets/lotties/91001-success.json',
+                repeat: false,
+                height: 200,
+                width: 200,
+              )),
           actions: [
             Center(
                 child: Column(
               children: [
-                Text(
+                const Text(
                   'For more details,',
-                  style: TextStyle(
-                      color: kblack, fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(color: kblack, fontWeight: FontWeight.bold, fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Text(
+                const Text(
                   'Check Delivery Status',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Colors.green)),
+                    style:
+                        const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.green)),
                     onPressed: () {
                       Navigator.of(context).pushAndRemoveUntil(
                           CupertinoPageRoute(builder: (context) => NavBar()),
                           (Route<dynamic> route) => false);
                     },
-                    child: Text(
+                    child: const Text(
                       'OK',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ))
               ],
             ))

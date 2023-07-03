@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
         ));
       } else {
         Navigator.of(context).pushReplacement(CupertinoPageRoute(
-          builder: (context) => const NavBar(),
+          builder: (context) => NavBar(),
         ));
       }
     });

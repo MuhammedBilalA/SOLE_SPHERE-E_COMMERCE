@@ -1,49 +1,33 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sole_sphere/application/product_size/product_size_notifier.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 
-class SizeTile extends StatefulWidget {
-  SizeTile({super.key, required this.index});
+class SizeTile extends StatelessWidget {
+  const SizeTile({super.key, required this.index});
 
-  int index;
-
-  @override
-  State<SizeTile> createState() => _SizeTileState();
-}
-
-class _SizeTileState extends State<SizeTile> {
-  int? sizeIndex;
-
-  bool sizecolor = false;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    SizeController controller = Provider.of<SizeController>(context);
     return Center(
       child: InkWell(
         onTap: () {
-          // if (sizecolor == false) {
-          setState(() {
-            if (sizecolor == false) {
-              sizecolor = true;
-            } else {
-              sizecolor = false;
-            }
-          });
+          controller.indexchange(index);
         },
         child: Container(
           height: 60,
           width: 60,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: (sizecolor == false)
-                ? const Color.fromARGB(255, 36, 35, 35)
-                : kwhite,
+            color: (index == controller.index) ? kwhite : const Color.fromARGB(255, 36, 35, 35),
           ),
           child: Center(
             child: Text(
-              '4${widget.index}',
+              '4$index',
               style: TextStyle(
-                  color: (sizecolor == false) ? kwhite : kblack,
+                  color: (index == controller.index) ? kblack : kwhite,
                   fontSize: 20,
                   fontWeight: FontWeight.w700),
             ),

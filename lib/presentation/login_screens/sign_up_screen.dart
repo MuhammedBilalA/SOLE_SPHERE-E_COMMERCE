@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sole_sphere/application/sign_in/sign_in_notifier.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 import 'package:sole_sphere/infrastructure/authentication_functions/authentication_function.dart';
 import 'package:sole_sphere/presentation/login_screens/widgets/sign_in_textform_field.dart';
@@ -37,8 +39,7 @@ class SignUpScreen extends StatelessWidget {
                     height: 120,
                     width: 180,
                     child: Shimmer.fromColors(
-                      baseColor:
-                          Color.fromARGB(255, 158, 156, 156).withOpacity(.9),
+                      baseColor: Color.fromARGB(255, 158, 156, 156).withOpacity(.9),
                       highlightColor: Color.fromARGB(255, 255, 255, 255),
                       child: Image.asset(
                         'assets/images/solespherebagremoved.png',
@@ -55,10 +56,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Create New Account',
-                      style: TextStyle(
-                          color: kwhite,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                      style: TextStyle(color: kwhite, fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),
                 ),
@@ -92,25 +90,48 @@ class SignUpScreen extends StatelessWidget {
                   icon: Icons.phone,
                   top: 20,
                 ),
-                SignInTextFormField(
-                    controller: passwordColtrollor,
-                    passwordVisible: false,
-                    numkeybord: false,
-                    // formkey: passwordFormKey,
-                    isSuffix: true,
-                    top: 20,
-                    icon: Icons.lock,
-                    title: 'enter password'),
+                ChangeNotifierProvider<SigninNotifier>(
+                    create: (context) => SigninNotifier(),
+                    child: Consumer(
+                      builder: (context, value, child) {
+                        SigninNotifier controller = Provider.of<SigninNotifier>(context);
 
-                SignInTextFormField(
-                    controller: confirmPasswordColtrollor,
-                    passwordVisible: false,
-                    numkeybord: false,
-                    // formkey: confirmPasswordFormKey,
-                    isSuffix: true,
-                    top: 20,
-                    icon: Icons.lock,
-                    title: 'confirm password'),
+                        return SignInTextFormField(
+                            controller: passwordColtrollor,
+                            passwordVisible: controller.passwordVisible,
+                            numkeybord: false,
+                            // formkey: passwordFormKey,
+                            isSuffix: true,
+                            top: 20,
+                            icon: Icons.lock,
+                            onPressed: () {
+                              controller.toggle();
+                            },
+                            title: 'enter password');
+                      },
+                    )),
+
+                ChangeNotifierProvider<SigninNotifier>(
+                    create: (context) => SigninNotifier(),
+                    child: Consumer(
+                      builder: (context, value, child) {
+                        SigninNotifier controller = Provider.of<SigninNotifier>(context);
+
+                        return SignInTextFormField(
+                            controller: confirmPasswordColtrollor,
+                            passwordVisible: controller.passwordVisible,
+                            numkeybord: false,
+                            // formkey: confirmPasswordFormKey,
+                            isSuffix: true,
+                            top: 20,
+                            onPressed: () {
+                              // Provider.of<SigninNotifier>(context).toggle();
+                              controller.toggle();
+                            },
+                            icon: Icons.lock,
+                            title: 'confirm password');
+                      },
+                    )),
                 SizedBox(
                   height: 40,
                 ),
@@ -119,9 +140,8 @@ class SignUpScreen extends StatelessWidget {
                     // snackbarFailed(
                     //     text: 'Password is not matching', context: context);
                     if (_formkey.currentState!.validate()) {
-                      if (passwordColtrollor.text ==
-                          confirmPasswordColtrollor.text) {
-                        Authentication()
+                      if (passwordColtrollor.text == confirmPasswordColtrollor.text) {
+                        Authentication(context: context)
                             .registerWithEmailAndPassword(
                                 emailColtrollor.text,
                                 passwordColtrollor.text,
@@ -130,22 +150,19 @@ class SignUpScreen extends StatelessWidget {
                             .then((success) {
                           if (success) {
                             // Get.offAll( BottomNavigationClass());
-                            snackbarSuccess(
-                                text: 'Successfully Sign Up', context: context);
+                            snackbarSuccess(text: 'Successfully Sign Up', context: context);
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => NavBar(),
                             ));
                           } else {
-                            // Get.snackbar('Error', 'Invalid email or password');
-                            snackbarFailed(
-                                text: 'Invalid Email or passwors',
-                                context: context);
+                            // snackbarFailed(
+                            //     text: 'Invalid Email or passwors',
+                            //     context: context);
                           }
                         });
                       } else {
                         // log('error');
-                        snackbarFailed(
-                            text: 'Password is not matching', context: context);
+                        snackbarFailed(text: 'Password is not matching', context: context);
                       }
                     }
                   },
@@ -159,10 +176,7 @@ class SignUpScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         'Sign Up',
-                        style: TextStyle(
-                            color: kblack,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                        style: TextStyle(color: kblack, fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ),
                   ),
@@ -177,10 +191,7 @@ class SignUpScreen extends StatelessWidget {
                       flex: 8,
                     ),
                     Text("Alredy have an account?",
-                        style: TextStyle(
-                            color: kwhite,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400)),
+                        style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.w400)),
                     Spacer(
                       flex: 1,
                     ),
@@ -190,10 +201,7 @@ class SignUpScreen extends StatelessWidget {
                       },
                       child: Text(
                         "Sign In",
-                        style: TextStyle(
-                            color: kwhite,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Spacer(

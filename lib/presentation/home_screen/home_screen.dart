@@ -1,32 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sole_sphere/application/search/search_notifier.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
+import 'package:sole_sphere/presentation/home_screen/widgets/brand_screen.dart';
 import 'package:sole_sphere/presentation/product_details_screen/product_details_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Scaffold(
-        //   backgroundColor: kblack,
-        //   body:
-        Padding(
+    final searchData = Provider.of<SearchNotifier>(context);
+    return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10, top: 13),
       child: Column(
         children: [
           TextFormField(
               onChanged: (value) {
-                setState(() {});
+                // setState(() {});
+                searchData.searchChange();
               },
               controller: searchController,
               cursorColor: kwhite,
@@ -213,22 +209,29 @@ class BrandProductListHomeScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Center(
-                    child: Container(
-                      height: 75,
-                      width: 75,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: const Color.fromARGB(255, 36, 35, 35),
-                      ),
-                      child: Center(
-                        child: SizedBox(
-                          height: 50,
-                          width: 50,
-                          child: Image.asset(
-                            (index % 2 == 0)
-                                ? 'assets/images/addidaslogo.png'
-                                : 'assets/images/pumalogo.png',
-                            // fit: BoxFit.cover,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => BrandScreen(),
+                        ));
+                      },
+                      child: Container(
+                        height: 75,
+                        width: 75,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color.fromARGB(255, 36, 35, 35),
+                        ),
+                        child: Center(
+                          child: SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Image.asset(
+                              (index % 2 == 0)
+                                  ? 'assets/images/addidaslogo.png'
+                                  : 'assets/images/pumalogo.png',
+                              // fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

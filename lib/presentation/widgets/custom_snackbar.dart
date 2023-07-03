@@ -10,7 +10,7 @@ snackbarFailed({
     ..showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
         // width: 250,
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -31,7 +31,7 @@ snackbarSuccess({
     ..showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
         // width: 250,
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

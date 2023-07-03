@@ -3,14 +3,9 @@ import 'package:order_tracker/order_tracker.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 import 'package:sole_sphere/presentation/track_order_screen/widgets/order_details_tile.dart';
 
-class TrackOrder extends StatefulWidget {
-  const TrackOrder({Key? key}) : super(key: key);
+class TrackOrder extends StatelessWidget {
+   TrackOrder({Key? key}) : super(key: key);
 
-  @override
-  State<TrackOrder> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<TrackOrder> {
   List<TextDto> orderList = [
     TextDto("Your order has been placed", ""),
     TextDto("Seller processed your order", ""),
