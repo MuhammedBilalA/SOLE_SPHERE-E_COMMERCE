@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
 import 'package:sole_sphere/presentation/login_screens/widgets/sign_in_textform_field.dart';
 import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
-import 'package:sole_sphere/presentation/payment_screen/widgets/address_text_formfield.dart';
+
 
 class VerificationScreen extends StatelessWidget {
   VerificationScreen({super.key});

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sole_sphere/application/search/search_notifier.dart';
@@ -73,15 +75,13 @@ class HomeScreen extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.31,
                             // color: Colors.yellow,
                             child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     height: 130,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: kwhite),
+                                        borderRadius: BorderRadius.circular(20), color: kwhite),
                                     child: Center(
                                       child: Image.asset(
                                         'assets/images/shoe4.png',
@@ -95,22 +95,18 @@ class HomeScreen extends StatelessWidget {
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: kred, width: 1.5)),
+                                        border: Border.all(color: kred, width: 1.5)),
                                     child: Center(
                                         child: Text(
                                       "₹ 3,999.00",
-                                      style: TextStyle(
-                                          color: kwhite,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(color: kwhite, fontWeight: FontWeight.bold),
                                     )),
                                   )
                                 ]),
                           ),
                           Expanded(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Container(
                                 // color: Colors.greenAccent,
                                 height: 200,
@@ -184,16 +180,14 @@ class BrandProductListHomeScreen extends StatelessWidget {
                 ),
                 Text(
                   'Popular Shoes',
-                  style: TextStyle(
-                      color: kwhite, fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.bold),
                 ),
                 Spacer(
                   flex: 28,
                 ),
                 Text(
                   'See All',
-                  style: TextStyle(
-                      color: kwhite, fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: kwhite, fontSize: 15, fontWeight: FontWeight.bold),
                 ),
                 Spacer(
                   flex: 1,
@@ -248,137 +242,144 @@ class BrandProductListHomeScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisExtent: 269,
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(CupertinoPageRoute(
-                      builder: (context) => ProductDetailsScreen(),
-                    ));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: kwhite, borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Padding(
-                          padding:
-                              EdgeInsets.only(right: 15, top: 13, bottom: 10),
-                          child: Icon(
-                            Icons.favorite_border,
-                            size: 30,
+          StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('solesphere')
+                  .doc('admin')
+                  .collection('products')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                return (snapshot.hasData)
+                    ? Expanded(
+                        child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisExtent: 269,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
                           ),
-                        ),
-                        Container(
-                          // color: kred,
-                          height: 140,
-                          width: double.infinity,
-                          child: Center(
-                            child: SizedBox(
-                                height: 130,
-                                width: 130,
-                                child: Image.asset(
-                                  'assets/images/shoe2.png',
-                                )),
-                          ),
-                        ),
-                        Expanded(
-                            child: Column(
-                          children: [
-                            SizedBox(
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 7.0),
-                                  child: Text(
-                                    (index % 2 == 0)
-                                        ? 'ADDIDAS'
-                                        : 'AIR JORDHAN',
-                                    style: TextStyle(
-                                        color: kblack,
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 15),
-                                  ),
-                                )),
-                            SizedBox(
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 7.0),
-                                  child: Shimmer.fromColors(
-                                    baseColor:
-                                        const Color.fromARGB(255, 64, 0, 255)
-                                            .withOpacity(.9),
-                                    highlightColor: Colors.deepOrange,
-                                    child: Text(
-                                      (index % 2 == 0) ? '85% off' : '75% off',
-                                      style: TextStyle(
-                                          color: Colors.green,
-                                          // decorationThickness: 1.8,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (context) => ProductDetailsScreen(),
+                                ));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: kwhite, borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(right: 15, top: 13, bottom: 10),
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        size: 30,
+                                      ),
                                     ),
-                                  ),
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 7.0),
-                              child: Row(
-                                children: [
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                  Text(
-                                    (index % 2 == 0)
-                                        ? '₹ 3,999.00'
-                                        : '₹ 4,599.00',
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 61, 59, 59),
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationColor: kred,
-                                        decorationThickness: 1.8,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                  Shimmer.fromColors(
-                                    baseColor: Color.fromARGB(255, 5, 153, 32)
-                                        .withOpacity(.9),
-                                    highlightColor:
-                                        Color.fromARGB(255, 0, 255, 8),
-                                    child: Text(
-                                      (index % 2 == 0)
-                                          ? '₹ 2,999.00'
-                                          : '₹ 3,544.00',
-                                      style: TextStyle(
-                                          color: Colors.green,
-                                          // decorationThickness: 1.8,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
+                                    Container(
+                                      // color: kred,
+                                      height: 140,
+                                      width: double.infinity,
+                                      child: Center(
+                                        child: SizedBox(
+                                            height: 130,
+                                            width: 130,
+                                            child: Image(
+                                                image: NetworkImage(
+                                                    snapshot.data!.docs[index]['image1']))),
+                                      ),
                                     ),
-                                  ),
-                                  Spacer(
-                                    flex: 15,
-                                  )
-                                ],
+                                    Expanded(
+                                        child: Column(
+                                      children: [
+                                        SizedBox(
+                                            width: double.infinity,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: 7.0),
+                                              child: Text(
+                                                snapshot.data!.docs[index]['productName'],
+                                                style: TextStyle(
+                                                    color: kblack,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 15),
+                                              ),
+                                            )),
+                                        SizedBox(
+                                            width: double.infinity,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left: 7.0),
+                                              child: Shimmer.fromColors(
+                                                baseColor: const Color.fromARGB(255, 64, 0, 255)
+                                                    .withOpacity(.9),
+                                                highlightColor: Colors.deepOrange,
+                                                child: Text(
+                                                  '${snapshot.data!.docs[index]['offerPercentage']}% off',
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      // decorationThickness: 1.8,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                              ),
+                                            )),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 7.0),
+                                          child: Row(
+                                            children: [
+                                              Spacer(
+                                                flex: 1,
+                                              ),
+                                              Text(
+                                                '₹ ${snapshot.data!.docs[index]['realPrice']}.00',
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(255, 61, 59, 59),
+                                                    decoration: TextDecoration.lineThrough,
+                                                    decorationColor: kred,
+                                                    decorationThickness: 1.8,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15),
+                                              ),
+                                              Spacer(
+                                                flex: 1,
+                                              ),
+                                              Shimmer.fromColors(
+                                                baseColor:
+                                                    Color.fromARGB(255, 5, 153, 32).withOpacity(.9),
+                                                highlightColor: Color.fromARGB(255, 0, 255, 8),
+                                                child: Text(
+                                                  '₹ ${snapshot.data!.docs[index]['offerPrice']}.00',
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      // decorationThickness: 1.8,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                              ),
+                                              Spacer(
+                                                flex: 15,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ))
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ))
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+                            );
+                          },
+                        ),
+                      )
+                    : Center(
+                        child: LoadingAnimationWidget.waveDots(
+                          color: Colors.white,
+                          size: 45,
+                        ),
+                      );
+              }),
         ],
       ),
     );

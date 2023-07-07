@@ -1,13 +1,10 @@
-import 'dart:developer';
-
+import 'package:flutter_number_captcha/flutter_number_captcha.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_number_captcha/flutter_number_captcha.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sole_sphere/application/payment/peyment_selection_notifier.dart';
 import 'package:sole_sphere/core/colors/colors.dart';
-import 'package:sole_sphere/presentation/login_screens/widgets/sign_in_textform_field.dart';
 import 'package:sole_sphere/presentation/nav_bar/nav_bar.dart';
 import 'package:sole_sphere/presentation/payment_screen/widgets/address_text_formfield.dart';
 import 'package:sole_sphere/presentation/payment_screen/widgets/amount_payebla_widget.dart';
